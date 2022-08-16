@@ -267,7 +267,8 @@ void DeletionByValueDuplicateList(Node *&head,int val)
 {
     Node *temp = head;
     Position pos  = SearchValueAtDuplicateList(head,val);
-    if(pos.position_number[0]<1){
+    if(pos.position_number[0]<1)
+    {
         cout<<"The List is Already Empty\n";
         return;
     }
@@ -275,6 +276,46 @@ void DeletionByValueDuplicateList(Node *&head,int val)
     {
         DeletionAtSpecificPosition(head,pos.position_number[i]-j);
     }
+}
+
+// non recursive
+Node *ReverseNonRecursive(Node *&head)
+{
+    Node *prev = NULL;
+    Node *current = head;
+
+    if(head == NULL)
+    {
+        cout<<"The List is Empty \n";
+        return head;
+    }
+    Node *Next = head->next;
+    while(true)
+    {
+        current->next = prev;
+        prev = current;
+        current=Next;
+        if(current==NULL)
+        {
+            break;
+        }
+        Next = Next->next;
+
+    }
+    return prev;
+}
+// Recursive
+
+void ReverseRecursive(Node *&head)
+{
+
+
+    if(head==NULL)
+    {
+        return;
+    }
+    ReverseRecursive(head->next);
+    cout<<head->value<<"  ";
 }
 int main()
 {
@@ -294,6 +335,8 @@ int main()
         <<"Choice 12: Deletion At Specific Position"<<endl
         <<"Choice 13: Deletion By specific value (Unique List)"<<endl
         <<"Choice 14: Deletion By specific value (Duplicate List)"<<endl
+        <<"Choice 15: Reverse List"<<endl
+        <<"Choice 16: Display List In Reverse Order "<<endl
         <<"Choice 0: Exit"<<endl;
 
 
@@ -384,6 +427,18 @@ int main()
             cout<<"Enter the value you want to delete (DL): ";
             cin>>val;
             DeletionByValueDuplicateList(head,val);
+            break;
+        case 15:
+            head = ReverseNonRecursive(head);
+            break;
+        case 16:
+            if(head==NULL){
+                cout<<"The List is empty";
+            }
+            else{
+                cout<<"The Reverse List is: ";
+                ReverseRecursive(head);
+            }
             break;
         default:
             break;
