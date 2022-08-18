@@ -33,6 +33,7 @@ void DeletionAtHead(Node *&head);
 void DeletionAtTail(Node *&head);
 void DeletionAtSpecificPosition(Node *&head,int pos);
 void DeletionByValueUniqueList(Node *&head,int searchValue);
+void MoveTail(Node *&head);
 
 
 /// Implementation of functions
@@ -317,6 +318,21 @@ void ReverseRecursive(Node *&head)
     ReverseRecursive(head->next);
     cout<<head->value<<"  ";
 }
+
+void MoveTail(Node *&head){
+    // 1. find tail
+
+    Node *temp = head;
+    while(temp->next!=NULL){
+        temp = temp->next;
+    }
+
+    //2. insert tail at head
+    InsertionAtHead(head,temp->value);
+    //3. delete tail
+
+    DeletionAtTail(head);
+}
 int main()
 {
     Node *head = NULL;
@@ -337,6 +353,7 @@ int main()
         <<"Choice 14: Deletion By specific value (Duplicate List)"<<endl
         <<"Choice 15: Reverse List"<<endl
         <<"Choice 16: Display List In Reverse Order "<<endl
+        <<"Choice 17: Move Tail To The Head"<<endl
         <<"Choice 0: Exit"<<endl;
 
 
@@ -440,6 +457,8 @@ int main()
                 ReverseRecursive(head);
             }
             break;
+        case 17:
+                MoveTail(head);
         default:
             break;
         }
