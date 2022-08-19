@@ -34,7 +34,7 @@ void DeletionAtTail(Node *&head);
 void DeletionAtSpecificPosition(Node *&head,int pos);
 void DeletionByValueUniqueList(Node *&head,int searchValue);
 void MoveTail(Node *&head);
-
+int FindMid(Node *&head);
 
 /// Implementation of functions
 int CountTheSize(Node *&head)
@@ -319,11 +319,13 @@ void ReverseRecursive(Node *&head)
     cout<<head->value<<"  ";
 }
 
-void MoveTail(Node *&head){
+void MoveTail(Node *&head)
+{
     // 1. find tail
 
     Node *temp = head;
-    while(temp->next!=NULL){
+    while(temp->next!=NULL)
+    {
         temp = temp->next;
     }
 
@@ -332,6 +334,25 @@ void MoveTail(Node *&head){
     //3. delete tail
 
     DeletionAtTail(head);
+}
+
+int FindMid(Node *&head)
+{
+    int mid;
+    Node *fast = head;
+    Node *slow = head;
+
+    if(head==NULL)
+    {
+        return -1;
+    }
+    while(fast!=NULL && fast->next!=NULL)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    return slow->value;
+
 }
 int main()
 {
@@ -354,6 +375,7 @@ int main()
         <<"Choice 15: Reverse List"<<endl
         <<"Choice 16: Display List In Reverse Order "<<endl
         <<"Choice 17: Move Tail To The Head"<<endl
+        <<"Choice 18: Find The Mid Node (Slow-Fast Method)"<<endl
         <<"Choice 0: Exit"<<endl;
 
 
@@ -449,16 +471,32 @@ int main()
             head = ReverseNonRecursive(head);
             break;
         case 16:
-            if(head==NULL){
+            if(head==NULL)
+            {
                 cout<<"The List is empty";
             }
-            else{
+            else
+            {
                 cout<<"The Reverse List is: ";
                 ReverseRecursive(head);
             }
             break;
         case 17:
-                MoveTail(head);
+            MoveTail(head);
+            break;
+        case 18:
+            int mid;
+            mid = FindMid(head);
+            if(mid==-1)
+            {
+                cout<<"The list empty\n";
+            }
+            else
+            {
+                cout<<"Mid node of the list is: ";
+                cout<<mid<<endl;
+            }
+            break;
         default:
             break;
         }
