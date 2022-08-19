@@ -35,6 +35,11 @@ void DeletionAtSpecificPosition(Node *&head,int pos);
 void DeletionByValueUniqueList(Node *&head,int searchValue);
 void MoveTail(Node *&head);
 int FindMid(Node *&head);
+void MakeCycle(Node *&head,int pos);
+bool CycleDetection(Node *&head);
+void DeletionOfCycle(Node *&head);
+
+
 
 /// Implementation of functions
 int CountTheSize(Node *&head)
@@ -354,6 +359,72 @@ int FindMid(Node *&head)
     return slow->value;
 
 }
+
+void MakeCycle(Node *&head,int pos)
+{
+    Node *startNode;
+    Node *temp = head;
+
+    int i = 1;
+
+    if(head==NULL)
+    {
+        cout<<"The list is empty\n";
+        return;
+    }
+    while(temp->next !=NULL)
+    {
+        if(i==pos)
+        {
+            startNode = temp;
+        }
+        temp = temp->next;
+        i++;
+    }
+    temp->next = startNode;
+}
+
+bool CycleDetection(Node *&head)
+{
+    Node *fast = head;
+    Node *slow = head;
+    if(head==NULL)
+    {
+        return false;
+    }
+    while(fast!=NULL && fast->next!=NULL)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+        if(fast->next == slow->next)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void DeletionOfCycle(Node *&head)
+{
+    Node *fast = head;
+    Node *slow = head;
+
+    do{
+        fast = fast->next->next;
+        slow = slow->next;
+    }while(slow!=fast);
+
+    fast = head;
+
+    while(fast->next != slow->next){
+        fast = fast->next;
+        slow = slow->next;
+    }
+    slow->next = NULL;
+
+
+}
 int main()
 {
     Node *head = NULL;
@@ -376,6 +447,9 @@ int main()
         <<"Choice 16: Display List In Reverse Order "<<endl
         <<"Choice 17: Move Tail To The Head"<<endl
         <<"Choice 18: Find The Mid Node (Slow-Fast Method)"<<endl
+        <<"Choice 19: Create A Cycle At Specific Position"<<endl
+        <<"Choice 20: Cycle Detection "<<endl
+        <<"Choice 21: Remove Cycle From The List"<<endl
         <<"Choice 0: Exit"<<endl;
 
 
@@ -495,6 +569,34 @@ int main()
             {
                 cout<<"Mid node of the list is: ";
                 cout<<mid<<endl;
+            }
+            break;
+        case 19:
+            cout<<"Enter the desire position to make cycle: ";
+            cin>>pos;
+            MakeCycle(head,pos);
+            break;
+        case 20:
+          int isDetect;
+          isDetect =  CycleDetection(head);
+            if(isDetect>0)
+            {
+                cout<<"There is a cycle in the list\n";
+            }
+            else
+            {
+                cout<<"There is no cycle in the list\n";
+            }
+            break;
+        case 21:
+            isDetect = CycleDetection(head);
+            if(isDetect)
+            {
+                DeletionOfCycle(head);
+            }
+            else
+            {
+                cout<<"There is no cycle in the list\n";
             }
             break;
         default:
