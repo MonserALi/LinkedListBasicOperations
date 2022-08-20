@@ -38,7 +38,8 @@ int FindMid(Node *&head);
 void MakeCycle(Node *&head,int pos);
 bool CycleDetection(Node *&head);
 void DeletionOfCycle(Node *&head);
-
+void ReplaceEvenIndex(Node *&head);
+void RemoveDuplicate(Node *&head);
 
 
 /// Implementation of functions
@@ -360,6 +361,8 @@ int FindMid(Node *&head)
 
 }
 
+
+/// function about cycle
 void MakeCycle(Node *&head,int pos)
 {
     Node *startNode;
@@ -410,20 +413,62 @@ void DeletionOfCycle(Node *&head)
     Node *fast = head;
     Node *slow = head;
 
-    do{
+    do
+    {
         fast = fast->next->next;
         slow = slow->next;
-    }while(slow!=fast);
+    }
+    while(slow!=fast);
 
     fast = head;
 
-    while(fast->next != slow->next){
+    while(fast->next != slow->next)
+    {
         fast = fast->next;
         slow = slow->next;
     }
     slow->next = NULL;
+}
+
+/// remove duplicate
 
 
+void RemoveDuplicate(Node *&head)
+{
+    Node *slow, *first, *dup;
+    slow = head;
+
+    /* Pick elements one by one */
+    while (slow != NULL && slow->next != NULL) {
+        first = slow;
+
+        /* Compare the picked element with rest
+           of the elements */
+        while (first->next != NULL) {
+            /* If duplicate then delete it */
+            if (slow->value == first->next->value) {
+                /* sequence of steps is important here */
+                dup = first->next;
+                first->next = first->next->next;
+                delete (dup);
+            }
+            else /* This is tricky */
+                first = first->next;
+        }
+        slow = slow->next;
+    }
+}
+
+void ReplaceEvenIndex(Node *&head){
+    int i=1;
+    Node *temp = head;
+    while(temp!=NULL){
+        if(i%2==0){
+            temp->value = -1;
+        }
+        temp = temp->next;
+        i++;
+    }
 }
 int main()
 {
@@ -450,6 +495,8 @@ int main()
         <<"Choice 19: Create A Cycle At Specific Position"<<endl
         <<"Choice 20: Cycle Detection "<<endl
         <<"Choice 21: Remove Cycle From The List"<<endl
+        <<"Choice 22: Remove Duplication"<<endl
+        <<"Choice 23: Replace Even Index "<<endl
         <<"Choice 0: Exit"<<endl;
 
 
@@ -577,8 +624,8 @@ int main()
             MakeCycle(head,pos);
             break;
         case 20:
-          int isDetect;
-          isDetect =  CycleDetection(head);
+            int isDetect;
+            isDetect =  CycleDetection(head);
             if(isDetect>0)
             {
                 cout<<"There is a cycle in the list\n";
@@ -598,6 +645,12 @@ int main()
             {
                 cout<<"There is no cycle in the list\n";
             }
+            break;
+        case 22:
+            RemoveDuplicate(head);
+            break;
+        case 23:
+            ReplaceEvenIndex(head);
             break;
         default:
             break;
