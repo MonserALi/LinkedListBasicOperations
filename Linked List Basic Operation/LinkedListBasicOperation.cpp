@@ -40,6 +40,7 @@ bool CycleDetection(Node *&head);
 void DeletionOfCycle(Node *&head);
 void ReplaceEvenIndex(Node *&head);
 void RemoveDuplicate(Node *&head);
+Node* ReveresEveryKNodes(Node* &head, int k);
 
 
 /// Implementation of functions
@@ -438,21 +439,16 @@ void RemoveDuplicate(Node *&head)
     Node *slow, *first, *dup;
     slow = head;
 
-    /* Pick elements one by one */
     while (slow != NULL && slow->next != NULL) {
         first = slow;
 
-        /* Compare the picked element with rest
-           of the elements */
         while (first->next != NULL) {
-            /* If duplicate then delete it */
             if (slow->value == first->next->value) {
-                /* sequence of steps is important here */
                 dup = first->next;
                 first->next = first->next->next;
                 delete (dup);
             }
-            else /* This is tricky */
+            else
                 first = first->next;
         }
         slow = slow->next;
@@ -469,6 +465,29 @@ void ReplaceEvenIndex(Node *&head){
         temp = temp->next;
         i++;
     }
+}
+
+Node* ReveresEveryKNodes(Node* &head, int k)
+{
+    if(head==NULL){
+        return NULL;
+    }
+    Node* current = head;
+    Node* next = NULL;
+    Node* prev = NULL;
+    int cnt = 0;
+
+    while (current != NULL && cnt < k) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+        cnt++;
+    }
+    if (next != NULL)
+        head->next = ReveresEveryKNodes(next, k);
+
+    return prev;
 }
 int main()
 {
@@ -497,6 +516,7 @@ int main()
         <<"Choice 21: Remove Cycle From The List"<<endl
         <<"Choice 22: Remove Duplication"<<endl
         <<"Choice 23: Replace Even Index "<<endl
+        <<"Choice 24: Reveres Every Kth Nodes "<<endl
         <<"Choice 0: Exit"<<endl;
 
 
@@ -651,6 +671,11 @@ int main()
             break;
         case 23:
             ReplaceEvenIndex(head);
+            break;
+        case 24:
+            cout<<"Enter the value of K: ";
+            cin>>val;
+            head = ReveresEveryKNodes(head,val);
             break;
         default:
             break;
