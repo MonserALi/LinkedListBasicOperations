@@ -90,7 +90,8 @@ void InsertionAtTail(Node *&head, int val)
     Node *temp = head;
     if(temp==NULL)
     {
-        InsertionAtHead(head,val);
+        newNode->next = head;
+        head = newNode;
     }
     else
     {
