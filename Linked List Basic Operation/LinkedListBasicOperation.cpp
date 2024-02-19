@@ -287,7 +287,7 @@ void DeletionByValueDuplicateList(Node *&head,int val)
     }
 }
 
-// non recursive
+/// non recursive
 Node *ReverseNonRecursive(Node *&head)
 {
     Node *prev = NULL;
